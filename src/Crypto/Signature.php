@@ -48,14 +48,17 @@ class Signature
         /** @var resource $context */
         $context = secp256k1_context_create(SECP256K1_CONTEXT_SIGN | SECP256K1_CONTEXT_VERIFY);
         /** @var resource $secpSignature */
-        $secpSignature = '';
+        $secpSignature = null;
         $recoveryId = $signature->slice(64)->getInt();
+        if ($recoveryId == 0x1b || $recoveryId == 0x1c) {
+            $recoveryId -= 0x1b;
+        }
         secp256k1_ecdsa_recoverable_signature_parse_compact($context, $secpSignature, $signature->slice(0, 64)->getBinary(), $recoveryId);
         /** @var resource $secpPublicKey */
-        $secpPublicKey = '';
+        $secpPublicKey = null;
         secp256k1_ecdsa_recover($context, $secpPublicKey, $secpSignature, $hash->getBinary());
         $publicKey = '';
-        secp256k1_ec_pubkey_serialize($context, $publicKey, $secpPublicKey, 0);
+        secp256k1_ec_pubkey_serialize($context, $publicKey, $secpPublicKey, 2);
         unset($context, $secpSignature, $secpPublicKey);
         return Byte::init($publicKey);
     }
