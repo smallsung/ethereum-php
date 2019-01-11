@@ -1,8 +1,8 @@
 {
-  "name": "ericychu/ethereum-php",
+  "name": "smallsung/ethereum-php",
   "description": "Ethereum client for PHP.",
   "keywords": ["ethereum", "web3"],
-  "homepage": "https://github.com/ericychu/ethereum-php",
+  "homepage": "https://github.com/smallsung/ethereum-php",
   "license": "MIT",
   "type": "library",
   "authors": [
